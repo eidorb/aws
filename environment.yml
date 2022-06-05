@@ -1,0 +1,8 @@
+name: aws
+channels:
+  - conda-forge
+dependencies:
+  - git-crypt
+  # Version 16 is active LTS: https://nodejs.org/en/about/releases/.
+  - nodejs=16
+  - python=3.10
