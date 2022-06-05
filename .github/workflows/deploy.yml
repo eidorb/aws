@@ -44,6 +44,6 @@ jobs:
           # Bootstrap to trust additional principals with CDK deployment.
           AWS_CONFIG_FILE=.aws/config npx cdk bootstrap \
             --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess \
-            --trust arn:aws:iam::961672313229:user/Identity-githubeidorbaws9CA4BAE6-SCD6J9HZ03LQ
+            --trust arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
         env:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}

@@ -49,14 +49,14 @@ This created a non-interactive IAM user. We need to explicitly trust the user to
 
     aws-vault exec root -- aws iam list-users
 
-In my case it is `arn:aws:iam::961672313229:user/Identity-githubeidorbaws9CA4BAE6-SCD6J9HZ03LQ`. Trust it by using `cdk bootstrap` again:
+In my case it is `arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A`. Trust it by using `cdk bootstrap` again:
 
     aws-vault exec root -- npx cdk bootstrap \
       --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess \
-      --trust arn:aws:iam::961672313229:user/Identity-githubeidorbaws9CA4BAE6-SCD6J9HZ03LQ
+      --trust arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
 
 Create an access key for this user:
 
-    aws-vault exec root -- aws iam create-access-key --user-name ManagementStack-githubeidorbaws9CA4BAE6-1I8QT1PPYK2J8
+    aws-vault exec root -- aws iam create-access-key --user-name Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
 
 Store the credentials in `.aws/config`. (This file is encrypted using [git-crypt](https://www.agwa.name/projects/git-crypt/).)
