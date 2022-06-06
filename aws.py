@@ -30,31 +30,41 @@ class Account(cdk.Stack):
     def __init__(self, scope, id):
         super().__init__(scope, id, description="Account management stack")
 
-        # Create non-interactive IAM users (e.g., for CI/CD pipelines).
-        [
-            iam.User(scope=self, id=id)
-            for id in [
-                # Used by https://github.com/eidorb/aws Github Actions workflow.
-                "github-eidorb-aws",
-            ]
+        # Reference existing CDK roles to be assumed by non-interactive users.
+        cdk_roles = [
+            iam.Role.from_role_name(self, id, role_name)
+            for id, role_name in (
+                (
+                    "CdkDeployRole",
+                    "cdk-hnb659fds-deploy-role-961672313229-ap-southeast-2",
+                ),
+                (
+                    "CdkFilePublishingRole",
+                    "cdk-hnb659fds-file-publishing-role-961672313229-ap-southeast-2",
+                ),
+                (
+                    "CdkImagePublishingRole",
+                    "cdk-hnb659fds-image-publishing-role-961672313229-ap-southeast-2",
+                ),
+            )
         ]
 
-        # Create IAM users.
-        users = [
-            iam.User(scope=self, id=id)
-            for id in [
-                # "brodie",
-            ]
-        ]
+        # Create non-interactive IAM users (e.g., for CI/CD pipelines). Allow users
+        # to assume CDK roles.
+        for id in [
+            # Used by https://github.com/eidorb/aws Github Actions workflow.
+            "github-eidorb-aws",
+        ]:
+            user = iam.User(self, id)
+            for role in cdk_roles:
+                role.grant_assume_role(user)
 
-        # Allow IAM users to self-manage credentials.
+        # Create a policy to allow IAM users to self-manage credentials.
         iam_policy = SelfManageCredentialsWithMFA(
             scope=self, id="SelfManageCredentials"
         )
 
-        # Grant IAM users administrator role.
-        # Create an administrator role. The policy attached below IAM users can't
-        # without assumeing this role with MFA.
+        # Create an administrator role.
         administrator_role = iam.Role(
             scope=self,
             id="Administrator",
@@ -65,8 +75,13 @@ class Account(cdk.Stack):
             ],
         )
 
-        # Attach IAM policy and grant assume role to IAM users
-        for user in users:
+        # Create IAM users. Attach policy and grant assume Administrator role to
+        # IAM users. This means IAM users can't do much without assuming the
+        # Administrator role with MFA.
+        for id in [
+            # "brodie",
+        ]:
+            user = iam.User(scope=self, id=id)
             iam_policy.attach_to_user(user)
             administrator_role.grant_assume_role(user)
 

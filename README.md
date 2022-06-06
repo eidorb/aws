@@ -45,17 +45,11 @@ This project's CDK stack defines an IAM user that is used to perform automatic d
 
     aws-vault exec root -- npx cdk deploy
 
-This created a non-interactive IAM user. We need to explicitly trust the user to perform CDK deployments. Find the IAM user's ARN:
+This created a non-interactive IAM user that can perform CDK deployments. Find the IAM user's ARN:
 
     aws-vault exec root -- aws iam list-users
 
-In my case it is `arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A`. Trust it by using `cdk bootstrap` again:
-
-    aws-vault exec root -- npx cdk bootstrap \
-      --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess \
-      --trust arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
-
-Create an access key for this user:
+In my case it is `arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A`. Create an access key for this user:
 
     aws-vault exec root -- aws iam create-access-key --user-name Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
 

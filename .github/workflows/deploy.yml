@@ -32,18 +32,5 @@ jobs:
 
           # Deploy CDK stack.
           AWS_CONFIG_FILE=.aws/config npx cdk deploy --require-approval never
-
-          # Assume CDK deploy role for bootstrapping.
-          export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" \
-              $(AWS_CONFIG_FILE=.aws/config aws sts assume-role \
-                --role-arn arn:aws:iam::961672313229:role/cdk-hnb659fds-deploy-role-961672313229-ap-southeast-2 \
-                --role-session-name github-eidorb-aws \
-                --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" \
-                --output text))
-
-          # Bootstrap to trust additional principals with CDK deployment.
-          AWS_CONFIG_FILE=.aws/config npx cdk bootstrap \
-            --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess \
-            --trust arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
         env:
           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
