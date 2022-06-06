@@ -7,8 +7,20 @@ jobs:
   deploy-cdk-stack:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
+      - uses: actions/checkout@v3
+      - id: cache
+        uses: actions/cache@v3
+        with:
+          # Use contents of Mamba environment file and Poetry lock file as cache key.
+          key: ${{ hashFiles('environment.yml', 'poetry.lock') }}
+          # Cache micromamba binary, config in .bashrc, Poetry binary and Mamba environment.
+          path: |
+            ./bin/micromamba
+            ~/.bashrc
+            ~/.local/bin/poetry
+            ~/micromamba/envs/aws
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: |
           # Install micromamba.
           wget -qO- https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
           ./bin/micromamba shell hook > ~/.bashrc
@@ -21,11 +33,14 @@ jobs:
           micromamba create --file environment.yml --yes
           micromamba activate aws
 
-          # Install Node.js package dependencies.
-          npm ci
-
           # Install Python package dependencies.
           poetry install
+      - run: |
+          source ~/.bashrc
+          micromamba activate aws
+
+          # Install Node.js package dependencies.
+          npm ci
 
           # Unlock git-crypt.
           echo $GIT_CRYPT_KEY | base64 -d | git-crypt unlock -
