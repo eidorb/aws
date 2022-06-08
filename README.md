@@ -54,3 +54,8 @@ In my case it is `arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6
     aws-vault exec root -- aws iam create-access-key --user-name Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
 
 Store the credentials in `.aws/config`. (This file is encrypted using [git-crypt](https://www.agwa.name/projects/git-crypt/).)
+
+
+# SSO
+
+The CDK stack assigns administrator access to a group in SSO. AWS SSO (and AWS Organizations too) must be enabled from the console. The AWS SSO built-in identity source can be used to manage users and groups.

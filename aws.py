@@ -1,5 +1,6 @@
 import aws_cdk as cdk
 import aws_cdk.aws_iam as iam
+import aws_cdk.aws_sso as sso
 
 
 class App(cdk.App):
@@ -84,6 +85,24 @@ class Account(cdk.Stack):
             user = iam.User(scope=self, id=id)
             iam_policy.attach_to_user(user)
             administrator_role.grant_assume_role(user)
+
+        # Assign administrator access to an SSO group.
+        sso.CfnAssignment(
+            scope=self,
+            id="AdministratorAssignment",
+            instance_arn="arn:aws:sso:::instance/ssoins-82598d5031b7ada7",
+            permission_set_arn=sso.CfnPermissionSet(
+                scope=self,
+                id="AdministratorPermissionSet",
+                instance_arn="arn:aws:sso:::instance/ssoins-82598d5031b7ada7",
+                name="administrator",
+                managed_policies=["arn:aws:iam::aws:policy/AdministratorAccess"],
+            ).attr_permission_set_arn,
+            principal_id="976779ecf4-ca627ff1-e7ca-4ace-9ae0-be6e495c7048",
+            principal_type="GROUP",
+            target_id="961672313229",
+            target_type="AWS_ACCOUNT",
+        )
 
 
 class SelfManageCredentialsWithMFA(iam.ManagedPolicy):
