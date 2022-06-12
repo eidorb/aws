@@ -41,19 +41,15 @@ Initially, we have an AWS account with only a root user. Therefore, the first CD
 
 ## Bootstrap automatic deployment
 
-This project's CDK stack defines an IAM user that is used to perform automatic deployments from a CI/CD pipeline. Deploy the CDK stack manually:
+This project's CDK stack defines a GitHub OIDC identity provider. The role assumed by this identity provider must be created before it can be referenced in this project's CI/CD pipeline. Deploy the CDK stack manually:
 
     aws-vault exec root -- npx cdk deploy
 
-This created a non-interactive IAM user that can perform CDK deployments. Find the IAM user's ARN:
+This created a an IAM role assumed by the GitHub OIDC identity provider. Find its ARN:
 
-    aws-vault exec root -- aws iam list-users
+    aws-vault exec root -- aws iam list-roles
 
-In my case it is `arn:aws:iam::961672313229:user/Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A`. Create an access key for this user:
-
-    aws-vault exec root -- aws iam create-access-key --user-name Account-githubeidorbaws9CA4BAE6-18WS93GLVLV5A
-
-Store the credentials in `.aws/config`. (This file is encrypted using [git-crypt](https://www.agwa.name/projects/git-crypt/).)
+Configure the role's ARN in the `aws-actions/configure-aws-credentials` task in the workflow.
 
 
 # SSO

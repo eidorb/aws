@@ -61,15 +61,34 @@ class Account(cdk.Stack):
             )
         ]
 
-        # Create non-interactive IAM users (e.g., for CI/CD pipelines). Allow users
-        # to assume CDK roles.
-        for id in [
-            # Used by https://github.com/eidorb/aws Github Actions workflow.
-            "github-eidorb-aws",
-        ]:
-            user = iam.User(self, id)
-            for role in cdk_roles:
-                role.grant_assume_role(user)
+        # Configure GitHub OIDC identity provider.
+        # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+        github_provider = iam.OpenIdConnectProvider(
+            scope=self,
+            id="GithubProvider",
+            url="https://token.actions.githubusercontent.com",
+            client_ids=["sts.amazonaws.com"],
+        )
+
+        # Configure a role assumed by the identity provider.
+        github_oidc_role = iam.Role(
+            scope=self,
+            id="GithubOidcRole",
+            assumed_by=iam.WebIdentityPrincipal(
+                github_provider.open_id_connect_provider_arn,
+                {
+                    "StringEquals": {
+                        "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+                        # Trust tokens issued to this repo's Github Actions workflow.
+                        "token.actions.githubusercontent.com:sub": "repo:eidorb/aws:ref:refs/heads/master",
+                    }
+                },
+            ),
+        )
+
+        # Grant the role the ability to assume CDK roles.
+        for role in cdk_roles:
+            role.grant_assume_role(github_oidc_role)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,9 @@ on:
 jobs:
   deploy-cdk-stack:
     runs-on: ubuntu-latest
+    # Allows JWT to be requested from GitHub's OIDC provider.
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - id: cache
@@ -35,6 +38,10 @@ jobs:
 
           # Install Python package dependencies.
           poetry install
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::961672313229:role/Account-GithubOidcRole20798CD3-LZP3AHTIPJU2
+          aws-region: ap-southeast-2
       - run: |
           source ~/.bashrc
           micromamba activate aws
