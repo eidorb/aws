@@ -1,4 +1,5 @@
 import aws_cdk as cdk
+import aws_cdk.aws_cloudtrail as cloudtrail
 import aws_cdk.aws_iam as iam
 import aws_cdk.aws_sso as sso
 
@@ -19,6 +20,8 @@ class Account(cdk.Stack):
     Use the following command to create an access key for a user:
 
         aws iam create-access-key --user-name UserName
+
+    Account actions are audited with CloudTrail.
     """
 
     def __init__(self, scope, id):
@@ -89,6 +92,9 @@ class Account(cdk.Stack):
         # Grant the role the ability to assume CDK roles.
         for role in cdk_roles:
             role.grant_assume_role(github_oidc_role)
+
+        # Audit account actions with CloudTrail.
+        cloudtrail.Trail(scope=self, id="Trail")
 
 
 if __name__ == "__main__":
