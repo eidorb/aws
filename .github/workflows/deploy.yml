@@ -49,10 +49,5 @@ jobs:
           # Install Node.js package dependencies.
           npm ci
 
-          # Unlock git-crypt.
-          echo $GIT_CRYPT_KEY | base64 -d | git-crypt unlock -
-
           # Deploy CDK stack.
-          AWS_CONFIG_FILE=.aws/config npx cdk deploy --require-approval never
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}
+           npx cdk deploy --require-approval never

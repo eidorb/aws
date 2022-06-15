@@ -24,7 +24,7 @@ Assuming [Poetry](https://python-poetry.org/docs/master/#installing-with-the-off
 Activate the `aws` environment to run programs without having to prefix them with `micromamba run --name aws ...`:
 
     micromamba activate aws
-    git-crypt status
+    which python
 
 
 # Bootstrapping
