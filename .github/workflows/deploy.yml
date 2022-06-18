@@ -49,5 +49,8 @@ jobs:
           # Install Node.js package dependencies.
           npm ci
 
+          # Show CDK stack diff.
+           npx cdk diff
+
           # Deploy CDK stack.
            npx cdk deploy --require-approval never
