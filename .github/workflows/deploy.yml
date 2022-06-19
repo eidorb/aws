@@ -16,12 +16,13 @@ jobs:
         with:
           # Use contents of Mamba environment file and Poetry lock file as cache key.
           key: ${{ hashFiles('environment.yml', 'poetry.lock') }}
-          # Cache micromamba binary, config in .bashrc, Poetry binary and Mamba environment.
+          # Cache micromamba binary, .bashrc, Poetry installation and Mamba environment.
           path: |
             ./bin/micromamba
             ~/.bashrc
             ~/.local/bin/poetry
-            ~/micromamba/envs/aws
+            ~/.local/share/pypoetry
+            ~/micromamba/envs/portfolio
       - if: steps.cache.outputs.cache-hit != 'true'
         run: |
           # Install micromamba.
