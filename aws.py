@@ -73,17 +73,25 @@ class Account(cdk.Stack):
             client_ids=["sts.amazonaws.com"],
         )
 
-        # Configure a role assumed by the identity provider.
+        # Configure a role assumed by the GitHub identity provider.
         github_oidc_role = iam.Role(
             scope=self,
             id="GithubOidcRole",
+            # The role can only be assumed by principals that that match the specified
+            # conditions. The conditions verify the claims of GitHub Actions workflow
+            # tokens.
             assumed_by=iam.WebIdentityPrincipal(
-                github_provider.open_id_connect_provider_arn,
-                {
-                    "StringEquals": {
+                identity_provider=github_provider.open_id_connect_provider_arn,
+                conditions={
+                    "StringLike": {
                         "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                        # Trust tokens issued to this repo's Github Actions workflow.
-                        "token.actions.githubusercontent.com:sub": "repo:eidorb/aws:ref:refs/heads/master",
+                        "token.actions.githubusercontent.com:sub": [
+                            # Trust tokens issued to this repo's (eidorb/aws) workflow.
+                            "repo:eidorb/aws:ref:refs/heads/master",
+                            # Trust eidorb/portfolio workflow (any branch).
+                            # TODO: Limit to master branch only.
+                            "repo:eidorb/portfolio:ref:refs/heads/*",
+                        ],
                     }
                 },
             ),
