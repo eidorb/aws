@@ -1,6 +1,7 @@
 import aws_cdk as cdk
 import aws_cdk.aws_cloudtrail as cloudtrail
 import aws_cdk.aws_iam as iam
+import aws_cdk.aws_route53 as route53
 import aws_cdk.aws_sso as sso
 
 
@@ -22,6 +23,8 @@ class Account(cdk.Stack):
         aws iam create-access-key --user-name UserName
 
     Account actions are audited with CloudTrail.
+
+    Set up brodie.id.au hosted zone.
     """
 
     def __init__(self, scope, id):
@@ -103,6 +106,11 @@ class Account(cdk.Stack):
 
         # Audit account actions with CloudTrail.
         cloudtrail.Trail(scope=self, id="Trail")
+
+        # Create public hosted zone for brodie.id.au.
+        route53.PublicHostedZone(
+            scope=self, id="BrodieIdAuHostedZone", zone_name="brodie.id.au"
+        )
 
 
 if __name__ == "__main__":
