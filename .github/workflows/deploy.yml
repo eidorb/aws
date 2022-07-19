@@ -22,7 +22,7 @@ jobs:
             ~/.bashrc
             ~/.local/bin/poetry
             ~/.local/share/pypoetry
-            ~/micromamba/envs/portfolio
+            ~/micromamba/envs
       - if: steps.cache.outputs.cache-hit != 'true'
         run: |
           # Install micromamba.
