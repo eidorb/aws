@@ -94,6 +94,8 @@ class Account(cdk.Stack):
                             # Trust eidorb/portfolio workflow (any branch).
                             # TODO: Limit to master branch only.
                             "repo:eidorb/portfolio:ref:refs/heads/*",
+                            # Trust tokens issued to eidorb/brodie.id.au workflow.
+                            "repo:eidorb/brodie.id.au:ref:refs/heads/master",
                         ],
                     }
                 },
