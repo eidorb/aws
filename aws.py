@@ -64,6 +64,18 @@ class Account(cdk.Stack):
                     "CdkImagePublishingRole",
                     "cdk-hnb659fds-image-publishing-role-961672313229-ap-southeast-2",
                 ),
+                (
+                    "CdkDeployRoleUsEast1",
+                    "cdk-hnb659fds-deploy-role-961672313229-us-east-1",
+                ),
+                (
+                    "CdkFilePublishingRoleUsEast1",
+                    "cdk-hnb659fds-file-publishing-role-961672313229-us-east-1",
+                ),
+                (
+                    "CdkImagePublishingRoleUsEast1",
+                    "cdk-hnb659fds-image-publishing-role-961672313229-us-east-1",
+                ),
             )
         ]
 
