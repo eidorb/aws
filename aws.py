@@ -101,13 +101,17 @@ class Account(cdk.Stack):
                     "StringLike": {
                         "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
                         "token.actions.githubusercontent.com:sub": [
-                            # Trust tokens issued to this repo's (eidorb/aws) workflow.
+                            # Trust tokens issued to the following GitHub Actions
+                            # workflows:
+                            # Repo: eidorb/aws, branch: master.
                             "repo:eidorb/aws:ref:refs/heads/master",
-                            # Trust eidorb/portfolio workflow (any branch).
                             # TODO: Limit to master branch only.
+                            # Repo: eidorb/portfolio, branch: any.
                             "repo:eidorb/portfolio:ref:refs/heads/*",
-                            # Trust tokens issued to eidorb/brodie.id.au workflow.
+                            # Repo: eidorb/brodie.id.au, branch: master.
                             "repo:eidorb/brodie.id.au:ref:refs/heads/master",
+                            # Repo: eidorb/lungs, branch: main.
+                            "repo:eidorb/lungs:ref:refs/heads/main",
                         ],
                     }
                 },
