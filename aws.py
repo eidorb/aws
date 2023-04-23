@@ -112,6 +112,8 @@ class Account(cdk.Stack):
                             "repo:eidorb/brodie.id.au:ref:refs/heads/master",
                             # Repo: eidorb/lungs, branch: main.
                             "repo:eidorb/lungs:ref:refs/heads/main",
+                            # Repo: eidorb/oopsie, branch: main.
+                            "repo:eidorb/oopsie:ref:refs/heads/main",
                         ],
                     }
                 },
