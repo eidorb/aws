@@ -113,8 +113,8 @@ class Account(cdk.Stack):
                             # TODO: Limit to master branch only.
                             # Repo: eidorb/portfolio, branch: any.
                             "repo:eidorb/portfolio:ref:refs/heads/*",
-                            # Repo: eidorb/brodie.id.au, branch: master.
-                            "repo:eidorb/brodie.id.au:ref:refs/heads/master",
+                            # Repo: eidorb/brodie.id.au, branch: ANY.
+                            "repo:eidorb/brodie.id.au:ref:refs/heads/*",
                             # Repo: eidorb/lungs, branch: main.
                             "repo:eidorb/lungs:ref:refs/heads/main",
                             # Repo: eidorb/oopsie, branch: main.
