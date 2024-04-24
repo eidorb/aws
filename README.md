@@ -61,3 +61,13 @@ The CDK stack assigns administrator access to a group in SSO. AWS SSO (and AWS O
 ### How to upgrade Node.js
 
 Pin the `nodejs` dependency in [environment.yml](environment.yml) to the active LTS version listed on [this page](https://nodejs.org/en/about/previous-releases).
+
+
+### How to upgrade AWS CDK Toolkit
+
+Activate the `aws` Mamba environment and install the latest version of AWS CDK Toolkit with the following commands:
+
+```bash
+micromamba activate aws
+npm install aws-cdk
+```
