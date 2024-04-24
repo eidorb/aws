@@ -71,3 +71,13 @@ Activate the `aws` Mamba environment and install the latest version of AWS CDK T
 micromamba activate aws
 npm install aws-cdk
 ```
+
+
+### How to upgrade AWS Construct Library
+
+Activate the `aws` Mamba environment and update the version of AWS Construct Library (`aws-cdk-lib`) with the following commands:
+
+```bash
+micromamba activate aws
+poetry update aws-cdk-lib
+```
