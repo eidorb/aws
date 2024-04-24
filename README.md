@@ -55,3 +55,9 @@ Configure the role's ARN in the `aws-actions/configure-aws-credentials` task in 
 # SSO
 
 The CDK stack assigns administrator access to a group in SSO. AWS SSO (and AWS Organizations too) must be enabled from the console. The AWS SSO built-in identity source can be used to manage users and groups.
+
+## How-to guides
+
+### How to upgrade Node.js
+
+Pin the `nodejs` dependency in [environment.yml](environment.yml) to the active LTS version listed on [this page](https://nodejs.org/en/about/previous-releases).

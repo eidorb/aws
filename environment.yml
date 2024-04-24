@@ -2,6 +2,6 @@ name: aws
 channels:
   - conda-forge
 dependencies:
-  # Version 16 is active LTS: https://nodejs.org/en/about/releases/.
-  - nodejs=16
+  # See this page for LTS version: https://nodejs.org/en/about/previous-releases.
+  - nodejs=20
   - python=3.10
