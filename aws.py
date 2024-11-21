@@ -121,6 +121,8 @@ class Account(cdk.Stack):
                             "repo:eidorb/oopsie:ref:refs/heads/main",
                             # Repo: eidorb/serverlisso, branch: ANY.
                             "repo:eidorb/serverlisso:ref:refs/heads/*",
+                            # Repo: eidorb/brutal-compassion, branch: main.
+                            "repo:eidorb/brutal-compassion:ref:refs/heads/main",
                         ],
                     }
                 },
