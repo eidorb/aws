@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  deploy-cdk-stack:
+  deploy:
     runs-on: ubuntu-latest
     # Allows JWT to be requested from GitHub's OIDC provider.
     permissions:
@@ -56,3 +56,6 @@ jobs:
 
           # Deploy CDK stack.
           npx cdk deploy --require-approval never
+
+          # Deploy CDK stack.
+          npx cdk gc --unstable=gc aws://961672313229/ap-southeast-2
