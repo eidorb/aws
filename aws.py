@@ -57,6 +57,10 @@ class Account(cdk.Stack):
                     "cdk-hnb659fds-deploy-role-961672313229-ap-southeast-2",
                 ),
                 (
+                    "CdkLookupRole",
+                    "cdk-hnb659fds-lookup-role-961672313229-ap-southeast-2",
+                ),
+                (
                     "CdkFilePublishingRole",
                     "cdk-hnb659fds-file-publishing-role-961672313229-ap-southeast-2",
                 ),
@@ -67,6 +71,10 @@ class Account(cdk.Stack):
                 (
                     "CdkDeployRoleUsEast1",
                     "cdk-hnb659fds-deploy-role-961672313229-us-east-1",
+                ),
+                (
+                    "CdkLookupRoleUsEast1",
+                    "cdk-hnb659fds-lookup-role-961672313229-us-east-1",
                 ),
                 (
                     "CdkFilePublishingRoleUsEast1",
